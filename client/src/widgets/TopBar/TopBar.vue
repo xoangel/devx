@@ -33,4 +33,27 @@ import UseButton from "../../ui/UseButton/UseButton.vue";
     width: 4px;
     background-color: var(--light-grey-color);
 }
+
+@media screen and (max-width: 640px) {
+
+    .topbar{
+        align-items: center;
+    }
+
+    .topbar :deep(.link-button) p{
+        display: none;
+    }
+
+    .logo_container{
+        height: 24px;
+    }
+
+    .logo_container p{
+        font-size: 12px;
+    }
+
+    .logo_container :deep(img){
+        height: 100%;
+    }
+}
 </style>

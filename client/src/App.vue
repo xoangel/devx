@@ -5,7 +5,9 @@ import NavBar from './widgets/NavBar/NavBar.vue';
 
 <template>
 <TopBar />
-<router-view />
+<transition name="fade">
+  <router-view />
+</transition>
 <NavBar />
 </template>
 
@@ -25,6 +27,7 @@ import NavBar from './widgets/NavBar/NavBar.vue';
     display: grid;
     grid-template-rows: 42px 1fr 42px;
     gap: 16px;
+    overflow: hidden;
   }
 
   h1, h2, h3, h4, h5, p, a, button, span, div{
@@ -49,6 +52,12 @@ import NavBar from './widgets/NavBar/NavBar.vue';
 
   a{
     text-decoration: none;
+  }
+
+  @media screen and (max-width: 640px) {
+    #app{
+      padding: 18px 5%;
+    }
   }
 
 </style>

@@ -4,7 +4,8 @@
   "info": {
     "singularName": "case",
     "pluralName": "cases",
-    "displayName": "Кейс"
+    "displayName": "Кейс",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -19,18 +20,35 @@
       "type": "text"
     },
     "screenshots": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
       "allowedTypes": [
         "images"
-      ],
-      "type": "media",
-      "multiple": true
+      ]
     },
     "screencast": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "videos"
+      ]
+    },
+    "service": {
+      "type": "enumeration",
+      "enum": [
+        "Дизайн ",
+        "Разработка",
+        "Разработка/дизайн"
       ],
-      "type": "media",
-      "multiple": false
+      "default": "Разработка/дизайн"
+    },
+    "date": {
+      "type": "date"
+    },
+    "link": {
+      "type": "string"
     }
   }
 }

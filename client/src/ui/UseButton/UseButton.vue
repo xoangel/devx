@@ -60,4 +60,10 @@
         transition: color .5s ease;
         z-index: 1;
     }
+
+    @media screen and (max-width: 640px) {
+        .link-button{
+            min-width: 42px;
+        }
+    }
 </style>

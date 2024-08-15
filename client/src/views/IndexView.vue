@@ -17,7 +17,7 @@
     }
 
     .home__video{
-        width: 500px;
+        width: 400px;
     }
 
     .home__background{
@@ -28,4 +28,10 @@
         height: 100%;
         border-radius: 16px;
     }
+
+    @media screen and (max-width: 640px) {
+        .home__video{
+            width: 300px;
+        }
+    }    
 </style>

@@ -368,6 +368,7 @@ export interface ApiCaseCase extends Schema.CollectionType {
     singularName: 'case';
     pluralName: 'cases';
     displayName: '\u041A\u0435\u0439\u0441';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -377,6 +378,16 @@ export interface ApiCaseCase extends Schema.CollectionType {
     description: Attribute.Text;
     screenshots: Attribute.Media<'images', true>;
     screencast: Attribute.Media<'videos'>;
+    service: Attribute.Enumeration<
+      [
+        '\u0414\u0438\u0437\u0430\u0439\u043D ',
+        '\u0420\u0430\u0437\u0440\u0430\u0431\u043E\u0442\u043A\u0430',
+        '\u0420\u0430\u0437\u0440\u0430\u0431\u043E\u0442\u043A\u0430/\u0434\u0438\u0437\u0430\u0439\u043D'
+      ]
+    > &
+      Attribute.DefaultTo<'\u0420\u0430\u0437\u0440\u0430\u0431\u043E\u0442\u043A\u0430/\u0434\u0438\u0437\u0430\u0439\u043D'>;
+    date: Attribute.Date;
+    link: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
