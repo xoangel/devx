@@ -388,6 +388,7 @@ export interface ApiCaseCase extends Schema.CollectionType {
       Attribute.DefaultTo<'\u0420\u0430\u0437\u0440\u0430\u0431\u043E\u0442\u043A\u0430/\u0434\u0438\u0437\u0430\u0439\u043D'>;
     date: Attribute.Date;
     link: Attribute.String;
+    company_type: Attribute.Text;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

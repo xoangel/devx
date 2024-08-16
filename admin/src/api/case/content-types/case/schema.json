@@ -49,6 +49,9 @@
     },
     "link": {
       "type": "string"
+    },
+    "company_type": {
+      "type": "text"
     }
   }
 }

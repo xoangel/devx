@@ -1,8 +1,8 @@
 :root{
     --black-color: #121212;
-    --card-color: #202020;
-    --action-color: #E54927;
-    --dark-grey-color: #3C3C3B;
+    --dark-grey-color: #202020;
+    --orange-color: #E54927;
+    --grey-color: #3C3C3B;
     --light-grey-color: #C7C7C7;
     --white-color: #F6F8FF;
     --fast-out: cubic-bezier(0.4, 0, 0.2, 1);

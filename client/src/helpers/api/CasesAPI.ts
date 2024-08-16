@@ -8,10 +8,10 @@ export default class CaseAPI extends StrapiAPI{
         
     }
 
-    async getAllCases(): Promise<Case>{
+    async getAllCases(): Promise<Case[]>{
         try{
-            const cases: AxiosResponse = await this.axiosInstance.get(`/cases/`);
-            return cases.data;
+            const cases: AxiosResponse = await this.axiosInstance.get(`/cases?populate=*`);
+            return cases.data.data;
         } catch(e){
             throw(e);
         }
@@ -19,7 +19,7 @@ export default class CaseAPI extends StrapiAPI{
 
     async getCase(id: number): Promise<Case>{
         try{
-            const cases: AxiosResponse = await this.axiosInstance.get(`/cases/${id}`);
+            const cases: AxiosResponse = await this.axiosInstance.get(`/cases/${id}?populate=*`);
             return cases.data;
         } catch(e){
             throw(e);

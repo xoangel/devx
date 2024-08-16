@@ -22,7 +22,7 @@
 </script>
 
 <template>
-<nav ref="nav" class="nav-desktop">
+<nav ref="nav" class="nav-desktop main_navigation">
     <div class="nav_link">
         <RouterLink to="/">DEVX</RouterLink>
     </div>
@@ -69,7 +69,7 @@
         </div>
     </div>
 </nav>
-<nav ref="navMobile" class="nav-mobile">
+<nav ref="navMobile" class="nav-mobile main_navigation">
     <a @click="expandMobileMenu()" class="nav-mobile__button-main">
         <p>Меню</p>
         <div class="nav-mobile__main_button__icon">
