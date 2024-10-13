@@ -35,15 +35,6 @@
         "videos"
       ]
     },
-    "service": {
-      "type": "enumeration",
-      "enum": [
-        "Дизайн ",
-        "Разработка",
-        "Разработка/дизайн"
-      ],
-      "default": "Разработка/дизайн"
-    },
     "date": {
       "type": "date"
     },
@@ -52,6 +43,14 @@
     },
     "company_type": {
       "type": "text"
+    },
+    "service": {
+      "type": "enumeration",
+      "enum": [
+        "Дизайн",
+        "Разработка",
+        "Разработка / Дизайн"
+      ]
     }
   }
 }

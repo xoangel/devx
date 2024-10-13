@@ -1,22 +1,53 @@
 <script setup lang="ts">
 import { onMounted, Ref, ref } from 'vue';
-import CaseAPI from '../helpers/api/CasesAPI';
+//import CaseAPI from '../helpers/api/CasesAPI';
 import Case from '../helpers/types/typeCase';
 import CaseCard from '../ui/CaseCard/CaseCard.vue';
 import Lenis from 'lenis';
+import { client } from '../config/graphql/client';
+import { gql } from '@apollo/client/core';
 
 
-const CaseAPIInstance = new CaseAPI();
+//const CaseAPIInstance = new CaseAPI();
 const caseList: Ref<Case[]> = ref([]);
 const container: Ref<HTMLElement | null> = ref(null);
 const wrapper: Ref<HTMLElement | null> = ref(null);
 
-async function getCases() {
-    const cases = await CaseAPIInstance.getAllCases();
-    caseList.value = cases;
+// async function getCases() {
+//     const cases = await CaseAPIInstance.getAllCases();
+//     caseList.value = cases;
+// }
+
+// getCases();
+
+async function getCases(){
+    const response = await client.query({
+        query: gql`
+        query {
+            cases {
+                data {
+                    id
+                    attributes {
+                        company_name
+                        service
+                        company_type
+                        screenshots{
+                            data{
+                                attributes{
+                                    url
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        `
+    });
+    caseList.value = response.data.cases.data;
 }
 
-getCases()
+getCases();
 
 onMounted(()=>{
     if(container.value && wrapper.value){
