@@ -1,122 +1,169 @@
 <script setup lang="ts">
-//import { onMounted } from 'vue';
 import Case from '../../helpers/types/typeCase';
-    const props = defineProps<{
-        case: Case
-    }>()
-    // onMounted(()=>{
-    // const card = document.querySelector('.case_card');
-    // let bounds: any;
+import CyrillicToTranslit from 'cyrillic-to-translit-js';
 
-    //     function rotateToMouse(e: any) {
-    //         const mouseX = e.clientX;
-    //         const mouseY = e.clientY;
-    //         const leftX = mouseX - bounds.x;
-    //         const topY = mouseY - bounds.y;
-    //         const center = {
-    //             x: leftX - bounds.width / 2,
-    //             y: topY - bounds.height / 2
-    //         }
-
-        
-    //         const distance = Math.sqrt(center.x**2 + center.y**2);
-    //         card.style.transform = `
-    //             scale3d(1.01, 1.01, 1.01)
-    //             rotate3d(
-    //             ${center.y / 100},
-    //             ${-center.x / 100},
-    //             0,
-    //             ${Math.log(distance)* 2}deg
-    //             )
-    //         `;
-    //     }
-
-    //     card.addEventListener('mouseenter', () => {
-    //         bounds = card.getBoundingClientRect();
-    //         document.addEventListener('mousemove', rotateToMouse);
-    //     });
-
-    //     card.addEventListener('mouseleave', () => {
-    //         document.removeEventListener('mousemove', rotateToMouse);
-    //         card.style.transform = '';
-    //         card.style.background = '';
-    //     });
-    // })
+const cyrillicToTranslit = CyrillicToTranslit();
+const props = defineProps<{
+    case: Case
+}>();
+const url = `/projects/${encodeURIComponent(cyrillicToTranslit.transform(props.case.company_name).toLowerCase())}?id=${props.case.documentId}`
 </script>
 
 <template>
-    <article class="case_card">
-        <div class="case_card__cover" :style="`background: top center / cover no-repeat url(http://localhost:1337${props.case.attributes.screenshots.data[0].attributes.url})`"></div>
-        <div class="case_card__service">
-            <p>{{ props.case.attributes.service }}</p>
-        </div>
-        <h1 class="case_card__title arimo">
-            {{ props.case.attributes.company_name }}
-        </h1>
-        <div class="case_card__description">
-            <p>{{ props.case.attributes.company_type }}</p>
-        </div>
-        <img src="/icons/click.svg" alt="" class="case_card__icon">
-    </article>
+    <router-link class="case_card__link" :to="url">
+        <article class="case_card relative">
+            <div class="case_card__wrapper w-full h-full z-10 relative">
+                <img class="case_card__cover" :src="`http://localhost:1337${props.case.screenshots[0].url}`" />
+                <div class="case_card__service">
+                    <p>{{ props.case.service }}</p>
+                </div>
+                <h1 class="case_card__title arimo">
+                    {{ props.case.company_name }}
+                </h1>
+                <div class="case_card__description">
+                    <p>{{ props.case.company_type }}</p>
+                </div>
+                <img src="/icons/click.svg" alt="" class="case_card__icon">
+            </div>
+            <div class="dots_border"></div>
+        </article>
+    </router-link>
+    
 </template>
 
-<style scoped lang="css">
-    .case_card{
-        position: relative;
-        width: 512px;
-        height: 100%;
-        border-radius: 12px;
+<style scoped lang="scss">
+.case_card {
+    position: relative;
+    width: 512px;
+    height: 100%;
+    border-radius: 12px;
+    cursor: pointer;
+    transform-origin: center;
+
+    @media screen and (max-width: 640px) {
+        width: 100%;
+        height: 500px;
+        border-radius: 8px;
+    }
+
+    @media screen and (min-width: 1900px) {
+        width: 860px;
+    }
+
+    &__wrapper{
         background-color: var(--dark-grey-color);
-        cursor: pointer;
-        transition-duration: 300ms;
-        transition-property: transform, box-shadow;
-        transition-timing-function: ease-out;
-        transform: rotate3d(0);
-    }
-
-    .case_card__cover{
-        width: 100%;
-        height: 40%;
         border-radius: 12px;
     }
 
-    .case_card__service{
-        margin-top: 8px;
+    .dots_border {
+        --size_border: calc(100% + 4px);
+        overflow: hidden;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: var(--size_border);
+        height: var(--size_border);
+        background-color: transparent;
+        z-index: 0;
+        border-radius: 12px;
+    }
+
+    .dots_border::before {
+        content: "";
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        transform-origin: left;
+        transform: rotate(0deg);
         width: 100%;
-        height: 42px;
-        background-color: var(--grey-color);
-        display: flex;
-        align-items: center;
-        padding: 0 16px;
+        height: 2rem;
+        opacity: 0;
+        background-color: white;
+        mask: linear-gradient(transparent 0%, white 120%);
+        animation: rotate 4s linear infinite;
+        transition: opacity .5s ease;
+    }
+}
+
+.case_card:hover .dots_border::before{
+    opacity: 1;
+    transition: opacity .5s ease;
+}
+
+.case_card__cover {
+    width: 100%;
+    border-radius: 12px;
+    min-height: 35%;
+
+    @media screen and (max-width: 640px){
+        min-height: 100px;
+    }
+}
+
+.case_card__service {
+    margin-top: 8px;
+    width: 100%;
+    height: 42px;
+    background-color: var(--grey-color);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+}
+
+.case_card__title {
+    color: var(--white-color);
+    text-transform: uppercase;
+    font-weight: 400;
+    margin: 24px 16px 12px;
+    transition: text-shadow .5s ease;
+    text-shadow: 0 0 0 var(--white-color);
+}
+
+.case_card__description {
+    padding: 0 16px 16px 16px;
+}
+
+.case_card__description>p {
+    line-height: 132%;
+    text-overflow: ellipsis;
+}
+
+.case_card__icon {
+    height: 48px;
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    opacity: .35;
+    transform: scale(1);
+    transition: opacity .5s ease, transform .5s ease-in-out;
+}
+
+.case_card:hover {
+    transition-duration: 150ms;
+    box-shadow: 0 5px 20px 5px #00000044;
+
+    .case_card__icon {
+        opacity: 1;
+        transform: scale(1.1);
+        transition: opacity .5s ease, transform .5s ease-in-out;
     }
 
     .case_card__title{
-        color: var(--white-color);
-        text-transform: uppercase;
-        font-weight: 400;
-        margin: 24px 16px 12px;
+        text-shadow: 0 0 4px var(--white-color);
+    }
+}
+
+.case_card__link:active .case_card__icon {
+        opacity: .2;
+        transform: translate(-20%, -20%) scale(50);
+        transition: opacity .5s ease, transform .5s ease-in-out;
     }
 
-    .case_card__description{
-        padding: 0 16px 16px 16px;
-        height: 100%;
+@keyframes rotate {
+        to {
+            transform: rotate(360deg);
+        }
     }
-
-    .case_card__description>p{
-        line-height: 132%;
-        text-overflow: ellipsis;
-    }
-
-    .case_card__icon{
-        height: 48px;
-        position: absolute;
-        bottom: 16px;
-        right: 16px;
-    }
-
-    .case_card:hover {
-        transition-duration: 150ms;
-        box-shadow: 0 5px 20px 5px #00000044;
-    }
-
 </style>

@@ -1,21 +1,27 @@
 <script setup lang="ts">
 import TopBar from './widgets/TopBar/TopBar.vue';
 import NavBar from './widgets/NavBar/NavBar.vue';
+import ServicesModal from './widgets/ServicesModal/ServicesModal.vue';
 </script>
 
 <template>
 <TopBar />
 <router-view v-slot="{ Component, route }">
-  <transition :name="route.meta.transition || 'fade'">
+  <transition :name="route.meta.transition as string || 'fade'">
     <component :is="Component" />
   </transition>
 </router-view>
 <NavBar />
+
+<ServicesModal />
 </template>
 
-<style>
+<style lang="scss">
 @import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
   *{
     margin: 0;
     padding: 0;
@@ -31,6 +37,19 @@ import NavBar from './widgets/NavBar/NavBar.vue';
     grid-template-rows: 42px 1fr 42px;
     gap: 16px;
     overflow: hidden;
+
+    :deep(.topbar){
+      grid-row: 1/2;
+    }
+
+    :deep(.nav-desktop){
+      grid-row: 3/4;
+    }
+
+    @media screen and (max-width: 640px) {
+      padding: 12px;
+    }
+
   }
 
   h1, h2, h3, h4, h5, p, a, button, span, div{
@@ -59,6 +78,10 @@ import NavBar from './widgets/NavBar/NavBar.vue';
 
   .arimo{
     font-family: "Arimo", sans-serif;
+  }
+
+  .text-white{
+    color: var(--white-color);
   }
 
   html.lenis, html.lenis body {
@@ -90,10 +113,35 @@ main{
   grid-row: 3/4;
 }
 
-  @media screen and (max-width: 640px) {
-    #app{
-      padding: 18px 5%;
-    }
-  }
+
+*::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+*::-webkit-scrollbar-track {
+  border-radius: 5px;
+  background-color: #121212;
+}
+
+*::-webkit-scrollbar-track:hover {
+  background-color: #202020;
+}
+
+*::-webkit-scrollbar-track:active {
+  background-color: #202020;
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: #F6F8FF;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #C7C7C7;
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background-color: #C7C7C7;
+}
 
 </style>

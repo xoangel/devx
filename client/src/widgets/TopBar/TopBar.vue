@@ -10,7 +10,7 @@ import UseButton from "../../ui/UseButton/UseButton.vue";
         <span class="vertical-divider"></span>
         <p class="">Команда разработки и дизайна</p>
     </div>
-    <UseButton><p>Связаться</p></UseButton>
+    <UseButton use-hover><p>Связаться</p></UseButton>
 </header>
 </template>
 

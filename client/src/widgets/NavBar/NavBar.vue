@@ -4,6 +4,20 @@
     const nav: Ref<Element | null> = ref(null);
     const navMobile: Ref<Element | null> = ref(null);
     const mobileLinks: Ref<Element | null> = ref(null);
+    const routes = [
+        {
+            title: "Главная",
+            path: "/"
+        },
+        {
+            title: "Проекты",
+            path: "/projects"
+        },
+        {
+            title: "Услуги",
+            path: "/services"
+        },
+    ]
 
     function openContacts(){
         if(nav.value) nav.value.classList.toggle("open_contacts")
@@ -23,15 +37,15 @@
 
 <template>
 <nav ref="nav" class="nav-desktop main_navigation">
-    <div class="nav_link">
-        <RouterLink to="/">DEVX</RouterLink>
+    <div class="nav_link" :class="{'active': $route.path ==='/'}">
+        <RouterLink to="/">Главная</RouterLink>
     </div>
     <div class="nav_dots">
         <span class="dot"></span>
         <span class="dot"></span>
         <span class="dot"></span>
     </div>
-    <div class="nav_link">
+    <div class="nav_link" :class="{'active': $route.path.startsWith('/projects')}">
         <RouterLink to="/projects/">Проекты</RouterLink>
     </div>
     <div class="nav_dots">
@@ -39,8 +53,8 @@
         <span class="dot"></span>
         <span class="dot"></span>
     </div>
-    <div class="nav_link">
-        <RouterLink to="/">Услуги</RouterLink>
+    <div class="nav_link" :class="{'active': $route.path.startsWith('/services')}">
+        <RouterLink to="/services">Услуги</RouterLink>
     </div>
     <div class="nav_dots">
         <span class="dot"></span>
@@ -79,16 +93,16 @@
             <span class="line"></span>
         </div>
     </a>
-    <div ref="mobileLinks" class="nav-mobile__links">
-        <a href="" class="nav-mobile__button">
+    <div ref="mobileLinks" class="nav-mobile__links z-40">
+        <router-link to="/" @click="expandMobileMenu()" class="nav-mobile__button">
             <p>Главная</p>
-        </a>
-        <a href="" class="nav-mobile__button">
+        </router-link>
+        <router-link to="/projects" @click="expandMobileMenu()" class="nav-mobile__button">
             <p>Проекты</p>
-        </a>
-        <a href="" class="nav-mobile__button">
+        </router-link>
+        <router-link to="/services" @click="expandMobileMenu()" class="nav-mobile__button">
             <p>Услуги</p>
-        </a>
+        </router-link>
         <a @click.prevent="contactsMobile()" href="" class="nav-mobile__button nav-mobile__button-contacts">
             <p>Контакты</p>
             <img src="/icons/cross.svg" class="close_contacts-m" alt="">
@@ -179,11 +193,11 @@
         transition: width .5s ease;
     }
 
-    .nav_link:hover{
+    .nav_link:hover, .nav_link.active{
         box-shadow: 0 0 0 1px white inset;
     }
 
-    .nav_link:hover::before{
+    .nav_link:hover::before, .nav_link.active::before{
         width: 0%;
         transition: width .5s ease;
     }

@@ -45,12 +45,8 @@
       "type": "text"
     },
     "service": {
-      "type": "enumeration",
-      "enum": [
-        "Дизайн",
-        "Разработка",
-        "Разработка / Дизайн"
-      ]
+      "type": "string",
+      "default": "Разработка | Дизайн"
     }
   }
 }

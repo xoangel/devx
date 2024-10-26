@@ -3,7 +3,9 @@
 </script>
 
 <template>
-    <img src="/logo.svg" alt="">
+    <router-link to="'/'">
+       <img class="pointer" src="/logo.svg" alt="">
+    </router-link>
 </template>
 
 <style scoped lang="css">

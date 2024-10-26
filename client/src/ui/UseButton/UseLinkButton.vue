@@ -3,17 +3,18 @@ defineProps({
     useHover: {
         type: Boolean,
         default: false
-    }
+    },
+    link: String
 })
 </script>
 
 <template>
-    <button class="link-button" :class="useHover ? 'animated' : ''" type="button">
+    <a :href="link" class="link-button" :class="useHover ? 'animated' : ''" type="button">
         <slot></slot>
-    </button>
+    </a>
 </template>
 
-<style lang="css" scoped>
+<style lang="css">
     .link-button{
         background-color: var(--white-color);
         display: flex;
@@ -38,11 +39,11 @@ defineProps({
         right: -110%;
         top: 50%;
         transform: translateY(-50%);
-        border-radius: 0px;
+        border-radius: 80px;
         width: 110%;
         height: 100px;
         background-color: #121212;
-        transition: right .5s ease-in-out, border-radius .25s ease-in-out;
+        transition: right .5s ease-in-out;
     }
 
     .animated:hover{
@@ -51,9 +52,8 @@ defineProps({
     }
 
     .animated:hover::before{
-        border-radius: 80px;
         right: -5%;
-        transition: right .5s ease-in-out, border-radius .25s ease-in-out;
+        transition: right .5s ease-in-out;
     }
 
     .link-button>p{

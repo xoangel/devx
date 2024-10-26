@@ -1,50 +1,36 @@
 <script setup lang="ts">
-import { onMounted, Ref, ref } from 'vue';
-//import CaseAPI from '../helpers/api/CasesAPI';
+import { computed, onMounted, Ref, ref } from 'vue';
 import Case from '../helpers/types/typeCase';
 import CaseCard from '../ui/CaseCard/CaseCard.vue';
 import Lenis from 'lenis';
 import { client } from '../config/graphql/client';
 import { gql } from '@apollo/client/core';
 
-
-//const CaseAPIInstance = new CaseAPI();
 const caseList: Ref<Case[]> = ref([]);
 const container: Ref<HTMLElement | null> = ref(null);
 const wrapper: Ref<HTMLElement | null> = ref(null);
-
-// async function getCases() {
-//     const cases = await CaseAPIInstance.getAllCases();
-//     caseList.value = cases;
-// }
-
-// getCases();
+const isMobile = computed(()=>window.innerWidth < 640)
 
 async function getCases(){
     const response = await client.query({
-        query: gql`
-        query {
-            cases {
-                data {
-                    id
-                    attributes {
-                        company_name
-                        service
-                        company_type
-                        screenshots{
-                            data{
-                                attributes{
-                                    url
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        `
-    });
-    caseList.value = response.data.cases.data;
+  query: gql`
+query Query {
+  cases {
+    
+    company_name
+    screenshots {
+      url
+    }
+    company_type
+    service
+    description
+    documentId
+  }
+}
+  `
+});
+
+    caseList.value = response.data.cases;
 }
 
 getCases();
@@ -56,7 +42,8 @@ onMounted(()=>{
             content: container.value,
             lerp: 0.05,
             smoothWheel: true,
-            orientation: 'horizontal',
+            syncTouch: true,
+            orientation: isMobile? 'vertical' : 'horizontal',
         });
 
         function raf(time: any){
@@ -71,26 +58,34 @@ onMounted(()=>{
 </script>
 
 <template>
-
     <main ref="wrapper" class="cases">
         <nav ref="container" class="slides">
-            <CaseCard v-for="c in caseList" :key="c.id" :case="c" />
+            <CaseCard 
+                v-for="c in caseList" 
+                :key="c.documentId" 
+                :case="c"
+            />
         </nav>
     </main>
 </template>
 
-<style scoped lang="css">
+<style scoped lang="scss">
 .slides {
     position: relative;
     height: 100%;
     width: fit-content;
     display: flex;
     gap: 16px;
+
+    @media screen and (max-width: 640px) {
+        flex-direction: column;
+    }
 }
 
 .cases{
     width: 100%;
     overflow: hidden;
     border-radius: 12px;
+    padding: 2px;
 }
 </style>
