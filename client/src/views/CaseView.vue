@@ -7,6 +7,7 @@ import { onMounted, Ref, ref } from 'vue';
 import Lenis from 'lenis';
 import UseButton from '../ui/UseButton/UseButton.vue';
 import useLinkButton from "../ui/UseButton/UseLinkButton.vue";
+import { useModalStore } from '../helpers/store/modalStore';
 
 const route = useRoute();
 const router = useRouter();
@@ -15,6 +16,7 @@ const thisCase: Ref<Case> = ref({} as Case);
 const wrapper = ref(null);
 const container = ref(null);
 const host = import.meta.env.VITE_SERVER_HOST;
+useModalStore().loader = true;
 const getQuery = async () => {
   try {
     const response: ApolloQueryResult<any> = await client.query({
@@ -45,6 +47,8 @@ const getQuery = async () => {
     }
   } catch (e) {
     console.error(e);
+  } finally {
+    useModalStore().loader = false;
   }
 };
 
@@ -56,6 +60,7 @@ onMounted(() => {
       content: container.value,
       lerp: 0.05,
       smoothWheel: true,
+      syncTouch: true
     });
 
     function raf(time: any) {
@@ -72,7 +77,7 @@ getQuery()
 </script>
 
 <template>
-  <article class="case h-full w-full flex">
+  <article class="case view h-full w-full flex">
     <div ref="wrapper" class="case__data case__data-media  h-full p-4 overflow-hidden">
       <div ref="container" class="case_data__scrollable flex flex-col gap-1">
         <video v-if="thisCase.screencast?.url" :src="host + thisCase.screencast?.url" muted autoplay loop
@@ -104,6 +109,7 @@ getQuery()
 
 <style lang="scss" scoped>
 .case {
+  height: 100%;
 
   @media screen and (max-width: 640px) {
     flex-direction: column;
@@ -111,7 +117,7 @@ getQuery()
   }
   &__data {
     border: 1px solid var(--light-grey-color);
-    max-height: calc(100vh - 188px);   
+    max-height: var(--content-height);  
 
     &__title{
       h1{
@@ -121,6 +127,10 @@ getQuery()
       @media screen and (max-width: 640px) {
         align-items: center;
       }
+    }
+
+    &__about{
+      overflow: hidden;
     }
 
     &-media {

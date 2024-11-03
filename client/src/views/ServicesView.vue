@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
-import ServiceTip from './../ui/ServiceTip.vue';
+import ServiceTip from '../ui/ServiceTip.vue';
 import Lenis from 'lenis';
 import { useModalStore } from '../helpers/store/modalStore';
 import { ServiceModalData } from '../helpers/types/typeCase';
@@ -64,13 +64,14 @@ const loadModal = (data: ServiceModalData) => {
     modalStore.servicesStore = true;
 }
 
-onMounted(() => {
+onMounted(async () => {
     if (container.value && wrapper.value) {
         const lenis = new Lenis({
             wrapper: wrapper.value,
             content: container.value,
             lerp: 0.1,
             smoothWheel: true,
+            syncTouch: true
         });
 
         function raf(time: any) {
@@ -105,67 +106,71 @@ onMounted(() => {
 </script>
 
 <template>
-    <main ref="wrapper" class="services">
-        <div ref="container" class="services__content flex flex-col">
-            <div class="services__title w-full flex items-center gap-6 mb-6">
-                <p class="text-white text-nowrap leading-none text-2xl">Стадия 1</p>
-                <span class="w-full h-0.5 opacity-25" style="background-color: var(--white-color)"></span>
-            </div>
-            <div class="services__group flex gap-4">
-                <div
-                    class="services__service_card p-6 relative rounded-xl w-full h-96 flex flex-col justify-between overflow-hidden"
-                    @click="loadModal(developmentModalData)"
-                    >
-                    <h1 class="text-white">Разработка</h1>
-                    <div class="z-10">
-                        <div class="services__tips  flex flex-wrap w-full gap-x-3 gap-y-2 mt-auto">
-                            <ServiceTip v-for="(tip, idx) in developmentTips" :key="idx" :text="tip" />
-                        </div>
-                        <img src="/icons/click.svg" class="click ml-auto">
-                    </div>
-                    <img src="/chrome_1.png" class="chrome absolute right-4 bottom-8 h-4/5">
+    <main ref="wrapper" class="services view">
+            <div ref="container" class="services__content flex flex-col">
+                <div class="services__title w-full flex items-center gap-6 mb-6">
+                    <p class="text-white text-nowrap leading-none text-2xl">Стадия 1</p>
+                    <span class="w-full h-0.5 opacity-25" style="background-color: var(--white-color)"></span>
                 </div>
-                <div
-                    class="services__service_card relative p-6 rounded-xl w-full h-96 flex flex-col justify-between overflow-hidden"
-                    @click="loadModal(designModalData)"
-                    >
-                    <h1 class="text-white">Дизайн</h1>
-                    <div class="z-10">
-                        <div class="services__tips flex flex-wrap w-full gap-3 mt-auto">
-                            <ServiceTip v-for="(tip, idx) in designTips" :key="idx" :text="tip" />
+                <div class="services__group flex gap-4">
+                    <div class="services__service_card p-6 relative rounded-xl w-full h-96 flex flex-col justify-between overflow-hidden"
+                        @click="loadModal(developmentModalData)">
+                        <h1 class="text-white">Разработка</h1>
+                        <div class="z-10">
+                            <div class="services__tips  flex flex-wrap w-full gap-x-3 gap-y-2 mt-auto">
+                                <ServiceTip v-for="(tip, idx) in developmentTips" :key="idx" :text="tip" />
+                            </div>
+                            <img src="/icons/click.svg" class="click ml-auto">
                         </div>
-                        <img src="/icons/click.svg" class="click ml-auto">
+                        <img src="/chrome_1.png" class="chrome absolute right-4 bottom-8 h-4/5">
                     </div>
-                    <img src="/chrome_2.png" class="chrome absolute right-4 bottom-8 h-4/5">
+                    <div class="services__service_card relative p-6 rounded-xl w-full h-96 flex flex-col justify-between overflow-hidden"
+                        @click="loadModal(designModalData)">
+                        <h1 class="text-white">Дизайн</h1>
+                        <div class="z-10">
+                            <div class="services__tips flex flex-wrap w-full gap-3 mt-auto">
+                                <ServiceTip v-for="(tip, idx) in designTips" :key="idx" :text="tip" />
+                            </div>
+                            <img src="/icons/click.svg" class="click ml-auto">
+                        </div>
+                        <img src="/chrome_2.png" class="chrome absolute right-4 bottom-8 h-4/5">
+                    </div>
                 </div>
-            </div>
-            <div class="services__title w-full flex items-center gap-6 mt-6 mb-8">
-                <p class="text-white text-nowrap leading-none text-2xl">Стадия 2 - Скоро</p>
-                <span class="w-full h-0.5 opacity-25" style="background-color: var(--white-color)"></span>
-            </div>
-            <div class="services__group flex gap-4 pb-4">
-                <div class="services__service_card services__service_card-blocked p-6 relative rounded-xl w-full h-96 flex flex-col justify-between overflow-hidden">
-                    <div class="blocked_overlay absolute w-full h-full left-0 top-0 rounded-xl z-20">
+                <div class="services__title w-full flex items-center gap-6 mt-6 mb-8">
+                    <p class="text-white text-nowrap leading-none text-2xl">Стадия 2 - Скоро</p>
+                    <span class="w-full h-0.5 opacity-25" style="background-color: var(--white-color)"></span>
+                </div>
+                <div class="services__group flex gap-4 pb-4" @click="modalStore.loader = !modalStore.loader">
+                    <div
+                        class="services__service_card services__service_card-blocked p-6 relative rounded-xl w-full h-96 flex flex-col justify-between overflow-hidden">
+                        <div class="blocked_overlay absolute w-full h-full left-0 top-0 rounded-xl z-20">
 
-                    </div>
-                    <h1 class="text-white">Интеграция ИИ для бизнеса</h1>
-                    <div class="z-10">
-                        <div class="services__tips  flex flex-wrap w-1/2 gap-x-3 gap-y-3 mt-auto">
-                            <ServiceTip v-for="(tip, idx) in aiTips" :key="idx" :text="tip" />
                         </div>
-                        <img src="/icons/click.svg" class="click ml-auto">
+                        <h1 class="text-white">Интеграция ИИ для бизнеса</h1>
+                        <div class="z-10">
+                            <div class="services__tips  flex flex-wrap w-1/2 gap-x-3 gap-y-3 mt-auto">
+                                <ServiceTip v-for="(tip, idx) in aiTips" :key="idx" :text="tip" />
+                            </div>
+                            <img src="/icons/click.svg" class="click ml-auto">
+                        </div>
+                        <img src="/document.png" class="absolute right-4 bottom-8 h-4/5">
                     </div>
-                    <img src="/document.png" class="absolute right-4 bottom-8 h-4/5">
                 </div>
             </div>
-        </div>
-    </main>
+        </main>
 </template>
 
 <style lang="scss" scoped>
+
+.services__group{
+    @media screen and (max-width: 640px) {
+        flex-direction: column;
+    }
+}
 .services {
-    height: calc(100vh - 188px);
     overflow: hidden;
+    background: var(--black-color);
+    border-radius: 12px
 }
 
 .services__service_card {
@@ -173,6 +178,10 @@ onMounted(() => {
     border: 1px solid var(--light-grey-color);
     cursor: pointer;
     transition: background .3s ease;
+
+    @media screen and (max-width: 640px) {
+        height: 500px;
+    }
 
     h2 {
         color: var(--white-color);
@@ -182,7 +191,7 @@ onMounted(() => {
         cursor: default;
         background: #202020 !important;
 
-        .blocked_overlay{
+        .blocked_overlay {
             backdrop-filter: blur(16px);
         }
     }
@@ -195,7 +204,12 @@ onMounted(() => {
 
 .chrome {
     z-index: 0;
-    transition: transform 1s ease-out
+    transition: transform 1s ease-out;
+
+    @media screen and (max-width: 640px) {
+        height: 60%;
+        bottom: 10%;
+    }
 }
 
 .services__service_card:hover .chrome {

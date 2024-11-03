@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import UseLogo from "./../../ui/UseLogo/UseLogo.vue";
 import UseButton from "../../ui/UseButton/UseButton.vue";
+import { useModalStore } from "../../helpers/store/modalStore";
+
+const modalStore = useModalStore();
 </script>
 
 <template>
@@ -10,14 +13,17 @@ import UseButton from "../../ui/UseButton/UseButton.vue";
         <span class="vertical-divider"></span>
         <p class="">Команда разработки и дизайна</p>
     </div>
-    <UseButton use-hover><p>Связаться</p></UseButton>
+    <UseButton class="contact_button" use-hover @click="modalStore.contactModal = true">
+        <p>Связаться</p>
+        <img class="contact_icon" src="/icons/text.svg" alt="">
+    </UseButton>
 </header>
 </template>
 
-<style scoped lang="css">
+<style scoped lang="scss">
 
 .topbar{
-    height: 42px;
+    height: var(--bar-height);
     display: flex;
     justify-content: space-between;
 }
@@ -34,6 +40,10 @@ import UseButton from "../../ui/UseButton/UseButton.vue";
     background-color: var(--light-grey-color);
 }
 
+.topbar :deep(.link-button) .contact_icon{
+    display: none;
+}
+
 @media screen and (max-width: 640px) {
 
     .topbar{
@@ -44,16 +54,29 @@ import UseButton from "../../ui/UseButton/UseButton.vue";
         display: none;
     }
 
+    .topbar :deep(.link-button) .contact_icon{
+        display: block;
+        width: 32px;
+    }
+
     .logo_container{
         height: 24px;
     }
 
     .logo_container p{
         font-size: 12px;
+
+        @media screen and (min-width: 1900px) {
+            font-size: 32px;
+        }
     }
 
     .logo_container :deep(img){
         height: 100%;
+    }
+
+    .contact_button{
+        padding: 2px;
     }
 }
 </style>

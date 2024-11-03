@@ -6,7 +6,25 @@
   --light-grey-color: #C7C7C7;
   --white-color: #F6F8FF;
   --fast-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --y-padding: 36px;
+  --x-padding: 5%;
+  --bar-height: 42px;
+  --content-height: calc(100vh - var(--y-padding) * 2 - var(--bar-height) * 2 - 32px)
 }
+
+@media screen and (min-width: 1900px) {
+  :root{
+    --bar-height: 64px;
+  }
+}
+
+.view{
+  position: relative;
+  z-index: 2;
+  background: var(--black-color);
+}
+
+
 
 .only_desktop{ 
   @media screen and (max-width: 640px) {
@@ -22,13 +40,14 @@
 
 .fade-enter-active,
 .fade-leave-active {
-  transition: all .5s ease;
+  transition: all .3s ease;
 }
 
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
 }
+
 
 .stagger-enter-active, .stagger-leave-active {
   transition: all 0.3s ease;
@@ -68,4 +87,64 @@
 .fade-scale-leave-to {
   opacity: 0;
   transform: scale(1.1);
+}
+
+.animate-loading::before,
+.animate-loading:after {
+	border-radius: 2px;
+	content: '';
+	position: absolute;
+	top: -1px;
+	left: -1px;
+	width: calc(100% + 2px);
+	height: calc(100% + 2px);
+  background: linear-gradient(
+  135deg,
+  #0d47a1,
+  #283593,
+  #673ab7,
+  #9c27b0,
+  #e91e63,
+  #f06292,
+  #ff8a65,
+  #673ab7,
+  #0d47a1
+);
+  background-size: 400%;
+  background-position: left;
+	z-index: -1;
+  animation: animate 10s linear infinite;	
+  border-radius: 12px;
+  opacity: .7;
+}
+@keyframes animate {
+	0% {
+		background-position: 0 0;
+    filter: blur(12px);
+    transform: rotateZ(0deg);
+	}
+
+  25%{
+    background-position: 75% 30%;
+    filter: blur(46px);
+    transform: rotateZ(6deg);
+  }
+
+	50% {
+		background-position: 150% 75%;
+    filter: blur(12px);
+    transform: rotateZ(0deg);
+	}
+
+  75%{
+    background-position: 75% 30%;
+    filter: blur(46px);
+    transform: rotateZ(-4deg);
+  }
+
+	100% {
+		background-position: 0 0;
+    filter: blur(12px);
+    transform: rotateZ(0deg);
+	}
 }

@@ -4,23 +4,25 @@
     const nav: Ref<Element | null> = ref(null);
     const navMobile: Ref<Element | null> = ref(null);
     const mobileLinks: Ref<Element | null> = ref(null);
-    const routes = [
-        {
-            title: "Главная",
-            path: "/"
-        },
-        {
-            title: "Проекты",
-            path: "/projects"
-        },
-        {
-            title: "Услуги",
-            path: "/services"
-        },
-    ]
+    const cop: Ref<boolean> = ref(false);
+    // const routes = [
+    //     {
+    //         title: "Главная",
+    //         path: "/"
+    //     },
+    //     {
+    //         title: "Проекты",
+    //         path: "/projects"
+    //     },
+    //     {
+    //         title: "Услуги",
+    //         path: "/services"
+    //     },
+    // ]
 
     function openContacts(){
         if(nav.value) nav.value.classList.toggle("open_contacts")
+        cop.value = !cop.value
     }
 
     function expandMobileMenu(){
@@ -61,26 +63,29 @@
         <span class="dot"></span>
         <span class="dot"></span>
     </div>
-    <div @click="openContacts()" class="nav_link nav_link-contacts">
+    <div @click="openContacts" class="nav_link nav_link-contacts relative">
         <a class="nav_link__contacts">Контакты</a>
+        <Transition name="fade">
+                    <img v-if="cop" @click="openContacts" src="/icons/cross.svg" class="close-contacts-desktop absolute invert right-4" :class="{'active' : cop}"alt="close">
+        </Transition>
     </div>
     <div class="nav__contacts_bar">
-        <div class="nav__contacts_bar__link">
+        <a href="https://t.me/xoangel17" target="_blank" class="nav__contacts_bar__link">
             <img src="/icons/telegram.svg" alt="tg" class="nav__contacts_bar__icon">
-            <a>Telegram</a>
-        </div>
-        <div class="nav__contacts_bar__link">
+            <span>Telegram</span>
+        </a>
+        <a href="https://wa.me/message/5MGTG5NCVSJXF1" target="_blank" class="nav__contacts_bar__link">
             <img src="/icons/whatsapp.svg" alt="wa" class="nav__contacts_bar__icon">
-            <a>What's App</a>
-        </div>
-        <div class="nav__contacts_bar__link">
+            <span>What's App</span>
+        </a>
+        <a href="tel:+79994203161" class="nav__contacts_bar__link">
             <img src="/icons/phone.svg" alt="phone" class="nav__contacts_bar__icon">
-            <a>+7 (999) 420-31-61</a>
-        </div>
-        <div class="nav__contacts_bar__link">
+            <span>+7 (999) 420-31-61</span>
+        </a>
+        <a href="mailto:dev.x.team@ya.ru" class="nav__contacts_bar__link">
             <img src="/icons/mail.svg" alt="mail" class="nav__contacts_bar__icon">
-            <a>dev.x.team@ya.ru</a>
-        </div>
+            <span>dev.x.team@ya.ru</span>
+        </a>
     </div>
 </nav>
 <nav ref="navMobile" class="nav-mobile main_navigation">
@@ -103,21 +108,21 @@
         <router-link to="/services" @click="expandMobileMenu()" class="nav-mobile__button">
             <p>Услуги</p>
         </router-link>
-        <a @click.prevent="contactsMobile()" href="" class="nav-mobile__button nav-mobile__button-contacts">
+        <a @click.prevent="contactsMobile()" href="" class="nav-mobile__button nav-mobile__button-contacts relative">
             <p>Контакты</p>
-            <img src="/icons/cross.svg" class="close_contacts-m" alt="">
+            <img src="/icons/cross.svg" class="close_contacts-m w-6" alt="">
         </a>
         <div class="contact_buttons">
-            <a href="" class="contact-m">
+            <a href="https://t.me/xoangel17" target="_blank" class="contact-m">
                 <img src="/icons/telegram.svg" alt="">
             </a>
-            <a href="" class="contact-m">
+            <a href="https://wa.me/message/5MGTG5NCVSJXF1" target="_blank"class="contact-m">
                 <img src="/icons/whatsapp.svg" alt="">
             </a>
-            <a href="" class="contact-m">
+            <a href="tel:+79994203161" class="contact-m">
                 <img src="/icons/phone.svg" alt="">
             </a>
-            <a href="" class="contact-m">
+            <a href="mailto:dev.x.team@ya.ru" class="contact-m">
                 <img src="/icons/mail.svg" alt="">
             </a>
         </div>
@@ -461,6 +466,16 @@
     .close_contacts-m{
         display: none;
         transform: rotateZ(45deg);
+    }
+
+    .close-contacts-desktop{
+        transform: translateY(-50%) rotateZ(0deg);
+        transition: all .3s var(--fast-out);
+        top: 50%;
+    }
+
+    .close-contacts-desktop.active{
+        transform: translateY(-50%) rotateZ(45deg);
     }
 
     .mobile_contacts-opened .close_contacts-m{

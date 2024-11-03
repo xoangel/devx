@@ -3,7 +3,7 @@
 </script>
 
 <template>
-    <main class="home">
+    <main class="home view">
         <div class="home__background">
             <video class="home__video" src="/intro.mp4" muted loop autoplay></video>
         </div>

@@ -3,11 +3,16 @@
 </script>
 
 <template>
-    <router-link to="'/'">
-       <img class="pointer" src="/logo.svg" alt="">
+    <router-link to="/">
+       <img class="logo pointer" src="/logo.svg" alt="">
     </router-link>
 </template>
 
-<style scoped lang="css">
-    
+<style scoped lang="scss">
+    .logo{
+        @media screen and (min-width: 1900px) {
+            height: 48px;
+            max-width: unset;
+        }
+    }
 </style>

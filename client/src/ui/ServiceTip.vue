@@ -1,4 +1,4 @@
-<script setup lang="js">
+<script setup lang="ts">
     defineProps({
         text: {
             type: String,
@@ -12,3 +12,11 @@
         <p>{{ text }}</p>
     </div>
 </template>
+
+<style lang="scss" scoped>
+@media screen and (min-width: 1900px) {
+    .service_tip{
+        height: 42px;
+    }
+}
+</style>

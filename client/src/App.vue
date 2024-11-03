@@ -2,18 +2,21 @@
 import TopBar from './widgets/TopBar/TopBar.vue';
 import NavBar from './widgets/NavBar/NavBar.vue';
 import ServicesModal from './widgets/ServicesModal/ServicesModal.vue';
+import LoaderComponent from './widgets/LoaderComponent.vue';
+import ContactForm from './widgets/ContactForm.vue';
 </script>
 
 <template>
-<TopBar />
-<router-view v-slot="{ Component, route }">
-  <transition :name="route.meta.transition as string || 'fade'">
-    <component :is="Component" />
-  </transition>
-</router-view>
-<NavBar />
-
-<ServicesModal />
+  <TopBar />
+  <router-view v-slot="{ Component, route }">
+    <transition :name="route.meta.transition as string || 'fade'" mode="out-in">
+      <component :is="Component" />
+    </transition>
+  </router-view>
+  <NavBar />
+  <LoaderComponent />
+  <ServicesModal />
+  <ContactForm />
 </template>
 
 <style lang="scss">
@@ -22,69 +25,104 @@ import ServicesModal from './widgets/ServicesModal/ServicesModal.vue';
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-  *{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+#app {
+  background-color: var(--black-color);
+  height: 100vh;
+  width: 100%;
+  padding: var(--y-padding) var(--x-padding);
+  display: grid;
+  grid-template-rows: 42px 1fr 42px;
+  gap: 16px;
+  overflow: hidden;
+  position: relative;
+
+  :deep(.topbar) {
+    grid-row: 1/2;
   }
 
-  #app{
-    background-color: var(--black-color);
-    height: 100vh;
-    width: 100%;
-    padding: 36px 5%;
-    display: grid;
-    grid-template-rows: 42px 1fr 42px;
-    gap: 16px;
-    overflow: hidden;
-
-    :deep(.topbar){
-      grid-row: 1/2;
-    }
-
-    :deep(.nav-desktop){
-      grid-row: 3/4;
-    }
-
-    @media screen and (max-width: 640px) {
-      padding: 12px;
-    }
-
+  :deep(.nav-desktop) {
+    grid-row: 3/4;
   }
 
-  h1, h2, h3, h4, h5, p, a, button, span, div{
-    font-family: "Exo 2", sans-serif;
+  @media screen and (max-width: 640px) {
+    padding: 12px;
   }
 
-  h1{
-    font-size: 40px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+a,
+button,
+span,
+div {
+  font-family: "Exo 2", sans-serif;
+}
+
+h1 {
+  font-size: 40px;
+}
+
+h2 {
+  font-size: 24px;
+}
+
+p,
+a,
+button {
+  font-size: 16px;
+}
+
+@media screen and (min-width: 1900px) {
+  h1 {
+    font-size: 60px;
   }
 
-  h2{
+  h2 {
+    font-size: 32px;
+  }
+
+  p,
+  a,
+  button {
     font-size: 24px;
   }
 
-  p, a, button{
-    font-size: 16px;
+  #app{
+    grid-template-rows: 64px 1fr 64px;
   }
+}
 
-  p, a{
-    color: var(--white-color);
-  }
+p,
+a {
+  color: var(--white-color);
+}
 
-  a{
-    text-decoration: none;
-  }
+a {
+  text-decoration: none;
+}
 
-  .arimo{
-    font-family: "Arimo", sans-serif;
-  }
+.arimo {
+  font-family: "Arimo", sans-serif;
+}
 
-  .text-white{
-    color: var(--white-color);
-  }
+.text-white {
+  color: var(--white-color);
+}
 
-  html.lenis, html.lenis body {
+html.lenis,
+html.lenis body {
   height: auto;
 }
 
@@ -104,12 +142,12 @@ import ServicesModal from './widgets/ServicesModal/ServicesModal.vue';
   pointer-events: none;
 }
 
-main{
+main {
   grid-row: 2/3;
   grid-column: 1/2;
 }
 
-.main_navigation{
+.main_navigation {
   grid-row: 3/4;
 }
 
@@ -118,6 +156,7 @@ main{
   height: 8px;
   width: 8px;
 }
+
 *::-webkit-scrollbar-track {
   border-radius: 5px;
   background-color: #121212;
@@ -143,5 +182,4 @@ main{
 *::-webkit-scrollbar-thumb:active {
   background-color: #C7C7C7;
 }
-
 </style>

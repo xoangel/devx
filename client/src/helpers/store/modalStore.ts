@@ -4,10 +4,13 @@ import { ServiceModalData } from "../types/typeCase";
 
 export const useModalStore = defineStore('modals', ()=>{
     const servicesStore = ref(false);
-    const servicesStoreData: Ref<ServiceModalData | null> = ref(null)
-
+    const servicesStoreData: Ref<ServiceModalData | null> = ref(null);
+    const contactModal = ref(false);
+    const loader = ref(false);
     return{
         servicesStore,
-        servicesStoreData
+        servicesStoreData,
+        contactModal,
+        loader
     }
 })

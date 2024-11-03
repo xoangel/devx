@@ -78,7 +78,7 @@ const url = `/projects/${encodeURIComponent(cyrillicToTranslit.transform(props.c
         transform-origin: left;
         transform: rotate(0deg);
         width: 100%;
-        height: 2rem;
+        height: 25%;
         opacity: 0;
         background-color: white;
         mask: linear-gradient(transparent 0%, white 120%);
@@ -110,19 +110,32 @@ const url = `/projects/${encodeURIComponent(cyrillicToTranslit.transform(props.c
     display: flex;
     align-items: center;
     padding: 0 16px;
+
+    @media screen and (min-width: 1900px) {
+        height: 64px;
+        margin-top: 16px;
+    }
 }
 
 .case_card__title {
     color: var(--white-color);
     text-transform: uppercase;
     font-weight: 400;
-    margin: 24px 16px 12px;
+    margin: 16px 16px 0px;
     transition: text-shadow .5s ease;
     text-shadow: 0 0 0 var(--white-color);
+
+    @media screen and (min-width: 1900px) {
+        margin: 36px 24px 12px;
+    }
 }
 
 .case_card__description {
     padding: 0 16px 16px 16px;
+
+    @media screen and (min-width: 1900px) {
+        padding: 0 24px 24px 24px;
+    }
 }
 
 .case_card__description>p {
@@ -155,11 +168,11 @@ const url = `/projects/${encodeURIComponent(cyrillicToTranslit.transform(props.c
     }
 }
 
-.case_card__link:active .case_card__icon {
-        opacity: .2;
-        transform: translate(-20%, -20%) scale(50);
-        transition: opacity .5s ease, transform .5s ease-in-out;
-    }
+// .case_card__link:active .case_card__icon {
+//         opacity: .2;
+//         transform: translate(-20%, -20%) scale(50);
+//         transition: opacity .5s ease, transform .5s ease-in-out;
+//     }
 
 @keyframes rotate {
         to {
