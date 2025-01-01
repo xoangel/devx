@@ -39,32 +39,32 @@
 
 <template>
 <nav ref="nav" class="nav-desktop main_navigation">
-    <div class="nav_link" :class="{'active': $route.path ==='/'}">
-        <RouterLink to="/">Главная</RouterLink>
-    </div>
+    <router-link to="/" class="nav_link" :class="{'active': $route.path ==='/'}">
+        <p>Главная</p>
+    </router-link>
     <div class="nav_dots">
         <span class="dot"></span>
         <span class="dot"></span>
         <span class="dot"></span>
     </div>
-    <div class="nav_link" :class="{'active': $route.path.startsWith('/projects')}">
-        <RouterLink to="/projects/">Проекты</RouterLink>
-    </div>
+    <router-link to="/projects" class="nav_link" :class="{'active': $route.path.startsWith('/projects')}">
+        <p>Проекты</p>
+    </router-link>
     <div class="nav_dots">
         <span class="dot"></span>
         <span class="dot"></span>
         <span class="dot"></span>
     </div>
-    <div class="nav_link" :class="{'active': $route.path.startsWith('/services')}">
-        <RouterLink to="/services">Услуги</RouterLink>
-    </div>
+    <router-link to="/services" class="nav_link" :class="{'active': $route.path.startsWith('/services')}">
+        <p>Услуги</p>
+    </router-link>
     <div class="nav_dots">
         <span class="dot"></span>
         <span class="dot"></span>
         <span class="dot"></span>
     </div>
     <div @click="openContacts" class="nav_link nav_link-contacts relative">
-        <a class="nav_link__contacts">Контакты</a>
+        <p class="nav_link__contacts">Контакты</p>
         <Transition name="fade">
                     <img v-if="cop" @click="openContacts" src="/icons/cross.svg" class="close-contacts-desktop absolute invert right-4" :class="{'active' : cop}"alt="close">
         </Transition>
@@ -130,7 +130,7 @@
 </nav>
 </template>
 
-<style lang="css">
+<style lang="scss">
     .nav-desktop{
         position: relative;
         display: grid;
@@ -181,7 +181,7 @@
         transition: box-shadow .45s ease;
     }
 
-    .nav_link>a{
+    .nav_link>p{
         z-index: 1;
     }
 

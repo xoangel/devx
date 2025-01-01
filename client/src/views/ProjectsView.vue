@@ -33,31 +33,56 @@ async function getCases() {
         caseList.value = response.data.cases;
     } catch (e) {
         console.error(e)
-    } finally{
+    } finally {
         useModalStore().loader = false;
     }
 }
-    getCases();
+getCases();
 
-    onMounted(() => {
-        if (container.value && wrapper.value) {
-            const lenis = new Lenis({
-                wrapper: wrapper.value,
-                content: container.value,
-                lerp: 0.05,
-                smoothWheel: true,
-                syncTouch: true,
-                orientation: 'horizontal',
-            });
+onMounted(() => {
+    if (container.value && wrapper.value) {
+        let lenis = new Lenis({
+            wrapper: wrapper.value,
+            content: container.value,
+            lerp: 0.05,
+            smoothWheel: true,
+            syncTouch: true,
+            orientation: 'horizontal',
+        });
 
-            function raf(time: any) {
-                lenis.raf(time);
-                requestAnimationFrame(raf);
-            }
-
+        function raf(time: any) {
+            lenis.raf(time);
             requestAnimationFrame(raf);
         }
-    })
+
+        requestAnimationFrame(raf);
+
+        addEventListener('resize', () => {
+            if (container.value && wrapper.value) {
+                if (window.innerWidth > 640) {
+                    lenis = new Lenis({
+                        wrapper: wrapper.value,
+                        content: container.value,
+                        lerp: 0.05,
+                        smoothWheel: true,
+                        syncTouch: true,
+                        orientation: 'horizontal',
+                    })
+                } else {
+                    lenis = new Lenis({
+                        wrapper: wrapper.value,
+                        content: container.value,
+                        lerp: 0.05,
+                        smoothWheel: true,
+                        syncTouch: true,
+                        orientation: 'vertical',
+                    })
+                }
+            }
+
+        })
+    }
+})
 
 </script>
 

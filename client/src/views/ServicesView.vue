@@ -140,7 +140,7 @@ onMounted(async () => {
                     <p class="text-white text-nowrap leading-none text-2xl">Стадия 2 - Скоро</p>
                     <span class="w-full h-0.5 opacity-25" style="background-color: var(--white-color)"></span>
                 </div>
-                <div class="services__group flex gap-4 pb-4" @click="modalStore.loader = !modalStore.loader">
+                <div class="services__group flex gap-4 pb-4">
                     <div
                         class="services__service_card services__service_card-blocked p-6 relative rounded-xl w-full h-96 flex flex-col justify-between overflow-hidden">
                         <div class="blocked_overlay absolute w-full h-full left-0 top-0 rounded-xl z-20">

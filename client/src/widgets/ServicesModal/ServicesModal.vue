@@ -8,6 +8,11 @@ const selectedTab: Ref<1 | 2> = ref(1);
 
 const activateTab = (tab: 1 | 2) => selectedTab.value = tab;
 
+const openContact = () => {
+  modalStore.servicesStore = false;
+  modalStore.contactModal = true;
+}
+
 </script>
 
 <template>
@@ -66,7 +71,7 @@ const activateTab = (tab: 1 | 2) => selectedTab.value = tab;
           </div>
           </Transition>
           <div class="modal--footer flex items-center justify-end">
-            <button class="upgrade-btn">Бесплатная консультация</button>
+            <button @click.prevent="openContact" class="upgrade-btn">Бесплатная консультация</button>
           </div>
         </form>
       </div>

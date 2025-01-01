@@ -7,6 +7,7 @@ import { gql } from '@apollo/client/core';
 import { client } from '../config/graphql/client';
 import { Vue3Lottie } from 'vue3-lottie'
 import doneJSON from "./../assets/lottie/done_wide.json";
+import { ElMessage } from 'element-plus';
 
 const modalStore = useModalStore();
 
@@ -49,12 +50,12 @@ const methodsList = [
 
 const validate = () => {
     if (!contact.value) {
-        buttonText.value = "Вы не сказали нам как с вами связаться ;(";
+        buttonText.value = "А как с вами связаться? :(";
         notValid.value = true;
         contactFieldError.value = true;
     }
     if (!name.value) {
-        buttonText.value = "Вы не сказали нам свое имя ;(";
+        buttonText.value = "Вы не сказали нам свое имя :(";
         notValid.value = true;
         nameFieldError.value = true;
     };
@@ -71,49 +72,57 @@ const resetError = (field: 'name' | 'contact') => {
 }
 
 const selectMethod = (direction: 1 | 0): void => {
-    const x = window.innerWidth > 1920 ? 48 : 32; 
+    const x = window.innerWidth > 1920 ? 48 : 32;
     direction ? id.value === 0 ? id.value = 3 : --id.value : id.value === 3 ? id.value = 0 : ++id.value;
     (methods.value as any).style.transform = `translateY(-${x * id.value + 12 * id.value}px)`
 }
 
 const submit = async () => {
     if (!notValid.value) {
-        // try {
-        //     loading.value = true;
-        //     const response = await client.mutate({
-        //         mutation: gql`
-        //         mutation Mutation($data: FormInput!) {
-        //             createForm(data: $data) {
-        //                 company
-        //                 contact
-        //                 name
-        //                 message
-        //                 type
-        //             }
-        //         }
-        //     `,
-        //         variables: {
-        //             data: {
-        //                 "company": company.value,
-        //                 "contact": contact.value,
-        //                 "name": name.value,
-        //                 "message": message.value,
-        //                 "type": methodsList[id.value]?.badge
-        //             }
-        //         }
+        try {
+            loading.value = true;
+            const response = await client.mutate({
+                mutation: gql`
+                mutation Mutation($data: FormInput!) {
+                    createForm(data: $data) {
+                        company
+                        contact
+                        name
+                        message
+                        type
+                    }
+                }
+            `,
+                variables: {
+                    data: {
+                        "company": company.value,
+                        "contact": contact.value,
+                        "name": name.value,
+                        "message": message.value,
+                        "type": methodsList[id.value]?.badge
+                    }
+                }
 
-        //     });
-        //     if (response.data?.code === 200) {
-               
-        //     }
-        // } catch (e) {
-        //     console.error(e);
-        // } finally {
-        //     loading.value = false;
-        // }
-        loading.value = true;
-        successState.value = true;
-        (doneLottie as any).play();    
+            });
+            console.log(response)
+                loading.value = true;
+                successState.value = true;
+                (doneLottie as any).play();
+            
+        } catch (e) {
+            console.error(e);
+            ElMessage({
+                message: "Возникла ошибка! Вы можете связаться с нами самостоятельно любым из способов, предложенных в меню 'Контакты'",
+                type: "error",
+                duration: 10000,
+                center: true,
+                showClose: true
+
+            })
+        } finally {
+            loading.value = false;
+        }
+
     }
 
 }
@@ -125,22 +134,16 @@ const submit = async () => {
         <div v-if="modalStore.contactModal"
             class="modal_overlay w-full h-full fixed flex items-center justify-center top-0 left-0 z-50"
             :class="{ 'active': modalStore.contactModal }" @click="modalStore.contactModal = false">
-            <div 
-                class="modal relative p-6 rounded-xl" 
-                :class="{ 'animate-loading': loading, 'success' : successState}" 
-                @click.stop
-            >
-                <img 
-                    src="/icons/cross.svg" 
-                    class="absolute right-5 top-5 rotate-45 cursor-pointer" 
-                    alt="close"
-                    @click="modalStore.contactModal = false"    
-                >
+            <div class="modal relative p-6 rounded-xl" :class="{ 'animate-loading': loading, 'success': successState }"
+                @click.stop>
+                <img src="/icons/cross.svg" class="absolute right-5 top-5 rotate-45 cursor-pointer" alt="close"
+                    @click="modalStore.contactModal = false">
                 <Transition name="fade" mode="out-in">
                     <div v-if="!successState" class="flex flex-col gap-8 items-center justify-center">
                         <div class="modal__title flex flex-col items-center">
                             <h2 class="text-white text-center">Давайте сделаем первый шаг</h2>
-                            <p class="text-center">Расскажите о своих задачах в форме ниже или напишите в Telegram, WhatsApp или на почту
+                            <p class="text-center">Расскажите о своих задачах в форме ниже или напишите в Telegram,
+                                WhatsApp или на почту
                             </p>
                         </div>
                         <div class="modal__body flex w-full gap-4">
@@ -196,14 +199,8 @@ const submit = async () => {
                     </div>
                     <div v-else>
                         <h2 class="text-white text-center">Спасибо! <br> Мы совсем скоро с вами свяжется</h2>
-                        <Vue3Lottie 
-                            ref="doneLottie" 
-                            :animationData="doneJSON" 
-                            width="200px" 
-                            height="200px"
-                            :speed=".5"
-                            :loop="false"
-                        />
+                        <Vue3Lottie ref="doneLottie" :animationData="doneJSON" width="200px" height="200px" :speed=".5"
+                            :loop="false" />
                     </div>
                 </Transition>
             </div>
@@ -243,7 +240,7 @@ const submit = async () => {
         height: 700px;
     }
 
-    &.success{
+    &.success {
         height: 350px;
     }
 
@@ -254,7 +251,7 @@ const submit = async () => {
     }
 }
 
-.modal__body{
+.modal__body {
     @media screen and (max-width: 650px) {
         flex-direction: column;
     }

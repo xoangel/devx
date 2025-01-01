@@ -130,7 +130,7 @@ getQuery()
     }
 
     &__about{
-      overflow: hidden;
+      overflow: auto;
     }
 
     &-media {
