@@ -1,7 +1,7 @@
 {
   "name": "client",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -14,21 +14,23 @@
     "cyrillic-to-translit-js": "^3.2.1",
     "element-plus": "^2.7.8",
     "graphql": "^16.9.0",
-    "gsap": "^3.12.5",
     "lenis": "^1.1.9",
     "pinia": "^2.2.0",
-    "vue": "^3.4.31",
+    "vue": "^3.5.13",
     "vue-router": "^4.4.2",
     "vue3-lottie": "^3.3.1"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.5",
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.47",
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.3",
     "sass-embedded": "^1.80.2",
-    "tailwindcss": "^3.4.14",
+    "sharp": "^0.33.5",
+    "svgo": "^3.3.2",
+    "tailwindcss": "^3.4.17",
     "typescript": "^5.2.2",
     "vite": "^5.3.4",
+    "vite-plugin-image-optimizer": "^1.1.8",
     "vue-tsc": "^2.0.24"
   }
 }

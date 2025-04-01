@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, Ref, ref } from 'vue';
+import { computed, Ref, ref, watch } from 'vue';
 import { useModalStore } from '../../helpers/store/modalStore';
 
 const modalStore = useModalStore();
@@ -13,6 +13,9 @@ const openContact = () => {
   modalStore.contactModal = true;
 }
 
+watch(data, () => {
+  selectedTab.value = 1;
+})
 </script>
 
 <template>

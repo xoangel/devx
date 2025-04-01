@@ -8,6 +8,7 @@ import { client } from '../config/graphql/client';
 import { Vue3Lottie } from 'vue3-lottie'
 import doneJSON from "./../assets/lottie/done_wide.json";
 import { ElMessage } from 'element-plus';
+import axios from 'axios';
 
 const modalStore = useModalStore();
 
@@ -81,7 +82,7 @@ const submit = async () => {
     if (!notValid.value) {
         try {
             loading.value = true;
-            const response = await client.mutate({
+            await client.mutate({
                 mutation: gql`
                 mutation Mutation($data: FormInput!) {
                     createForm(data: $data) {
@@ -104,10 +105,15 @@ const submit = async () => {
                 }
 
             });
-            console.log(response)
-                loading.value = true;
+            await axios.post(`${import.meta.env.VITE_SERVER}/send-message`, {
+                name: name.value,
+                company: company.value,
+                contact: contact.value,
+                message: message.value,
+                type: methodsList[id.value]?.badge
+            });
                 successState.value = true;
-                (doneLottie as any).play();
+                // (doneLottie as any).play();
             
         } catch (e) {
             console.error(e);

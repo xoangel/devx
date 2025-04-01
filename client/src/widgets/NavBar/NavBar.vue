@@ -66,7 +66,7 @@
     <div @click="openContacts" class="nav_link nav_link-contacts relative">
         <p class="nav_link__contacts">Контакты</p>
         <Transition name="fade">
-                    <img v-if="cop" @click="openContacts" src="/icons/cross.svg" class="close-contacts-desktop absolute invert right-4" :class="{'active' : cop}"alt="close">
+                    <img v-if="cop" src="/icons/cross.svg" class="close-contacts-desktop absolute invert right-4" :class="{'active' : cop}"alt="close">
         </Transition>
     </div>
     <div class="nav__contacts_bar">
@@ -89,7 +89,7 @@
     </div>
 </nav>
 <nav ref="navMobile" class="nav-mobile main_navigation">
-    <a @click="expandMobileMenu()" class="nav-mobile__button-main">
+    <a @click="expandMobileMenu" class="nav-mobile__button-main">
         <p>Меню</p>
         <div class="nav-mobile__main_button__icon">
             <span class="circle"></span>
@@ -99,19 +99,19 @@
         </div>
     </a>
     <div ref="mobileLinks" class="nav-mobile__links z-40">
-        <router-link to="/" @click="expandMobileMenu()" class="nav-mobile__button">
+        <router-link to="/" @click="expandMobileMenu" class="nav-mobile__button">
             <p>Главная</p>
         </router-link>
-        <router-link to="/projects" @click="expandMobileMenu()" class="nav-mobile__button">
+        <router-link to="/projects" @click="expandMobileMenu" class="nav-mobile__button">
             <p>Проекты</p>
         </router-link>
-        <router-link to="/services" @click="expandMobileMenu()" class="nav-mobile__button">
+        <router-link to="/services" @click="expandMobileMenu" class="nav-mobile__button">
             <p>Услуги</p>
         </router-link>
-        <a @click.prevent="contactsMobile()" href="" class="nav-mobile__button nav-mobile__button-contacts relative">
+        <div @click="contactsMobile" class="nav-mobile__button nav-mobile__button-contacts relative">
             <p>Контакты</p>
             <img src="/icons/cross.svg" class="close_contacts-m w-6" alt="">
-        </a>
+        </div>
         <div class="contact_buttons">
             <a href="https://t.me/xoangel17" target="_blank" class="contact-m">
                 <img src="/icons/telegram.svg" alt="">
@@ -130,7 +130,7 @@
 </nav>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
     .nav-desktop{
         position: relative;
         display: grid;
@@ -255,8 +255,16 @@
         background-color: #121212;
         opacity: 0;
         transform: scale(.7) translateX(200%);
-        transition: all .75s;
+        transition: transform .75s, background-color .3s;
         box-shadow: 0 0 0 1px white inset;
+
+        &:hover{
+            background-color: #ffffff17;
+        }
+
+        &:active{
+            background-color: #ffffff33;
+        }
     }
 
     .open_contacts .nav__contacts_bar__link:nth-child(1){

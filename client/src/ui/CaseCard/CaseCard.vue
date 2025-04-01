@@ -17,7 +17,7 @@ const url = `/projects/${encodeURIComponent(cyrillicToTranslit.transform(props.c
                 <div class="case_card__service">
                     <p>{{ props.case.service }}</p>
                 </div>
-                <h1 class="case_card__title arimo">
+                <h1 class="case_card__title arimo leading-tight">
                     {{ props.case.company_name }}
                 </h1>
                 <div class="case_card__description">
@@ -47,7 +47,7 @@ const url = `/projects/${encodeURIComponent(cyrillicToTranslit.transform(props.c
     }
 
     @media screen and (min-width: 1900px) {
-        width: 860px;
+        width: 640px;
     }
 
     &__wrapper{

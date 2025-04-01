@@ -15,7 +15,7 @@ const id = route.query.id;
 const thisCase: Ref<Case> = ref({} as Case);
 const wrapper = ref(null);
 const container = ref(null);
-const host = import.meta.env.VITE_SERVER_HOST;
+const admin = import.meta.env.VITE_ADMIN;
 useModalStore().loader = true;
 const getQuery = async () => {
   try {
@@ -80,9 +80,9 @@ getQuery()
   <article class="case view h-full w-full flex">
     <div ref="wrapper" class="case__data case__data-media  h-full p-4 overflow-hidden">
       <div ref="container" class="case_data__scrollable flex flex-col gap-1">
-        <video v-if="thisCase.screencast?.url" :src="host + thisCase.screencast?.url" muted autoplay loop
+        <video v-if="thisCase.screencast?.url" :src="admin + thisCase.screencast?.url" muted autoplay loop
           class="w-full rounded-lg" />
-        <img v-for="(img, idx) in thisCase.screenshots" :key="idx" :src="host + img.url" class="w-full rounded-lg">
+        <img v-for="(img, idx) in thisCase.screenshots" :key="idx" :src="admin + img.url" class="w-full rounded-lg">
       </div>
     </div>
     <div class="case__data case__data-info h-full p-4 flex flex-col gap-4">
